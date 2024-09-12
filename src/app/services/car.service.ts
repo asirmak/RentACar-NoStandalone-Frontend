@@ -8,11 +8,17 @@ import { Car } from '../models/car';
   providedIn: 'root',
 })
 export class CarService {
-  apiUrl = 'https://localhost:44386/api/cars/getall';
+  apiUrl = 'https://localhost:44386/api/';
 
   constructor(private httpClient: HttpClient) {}
 
   getCars(): Observable<ListResponseModel<Car>> {
-    return this.httpClient.get<ListResponseModel<Car>>(this.apiUrl);
+    let newPath = this.apiUrl + "cars/getall";
+    return this.httpClient.get<ListResponseModel<Car>>(newPath);
+  }
+
+  getCarsByBrand(brandId:number): Observable<ListResponseModel<Car>> {
+    let newPath = this.apiUrl + "cars/getbybrandid?id="+brandId;
+    return this.httpClient.get<ListResponseModel<Car>>(newPath);
   }
 }

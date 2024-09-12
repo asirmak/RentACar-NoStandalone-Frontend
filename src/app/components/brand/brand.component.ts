@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Brand } from '../../models/brand';
 import { BrandService } from '../../services/brand.service';
-import { response } from 'express';
 
 @Component({
   selector: 'app-brand',
@@ -10,7 +9,8 @@ import { response } from 'express';
 })
 export class BrandComponent implements OnInit{
 
-  brands: Brand[]=[];
+  brands: Brand[];
+  currentBrand :Brand;
   dataLoaded = false;
 
   constructor(private brandService:BrandService){}
@@ -25,5 +25,14 @@ export class BrandComponent implements OnInit{
       this.dataLoaded = true;
     })
   }
+  setCurrentBrand(brand:Brand){
+    this.currentBrand = brand;
+  }
 
+  getCurrentBrandClass(brand:Brand){
+    if(brand == this.currentBrand){
+      return "list-group-item active";
+    }
+    else return "list-group-item";
+  }
 }
