@@ -3,6 +3,13 @@
 </div>
 <ul *ngIf="dataLoaded == true" class="list-group">
   <li
+    (click)="setCurrentBrand()"
+    routerLink = "/cars"
+    [class] = "getCurrentBrandClass()"
+  >
+    List all brands
+  </li>
+  <li
     (click)="setCurrentBrand(brand)"
     routerLink = "/cars/brand/{{brand.id}}"
     *ngFor="let brand of brands"
