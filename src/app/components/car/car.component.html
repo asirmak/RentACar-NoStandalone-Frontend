@@ -1,24 +1,30 @@
 <div *ngIf="dataLoaded == false" class="spinner-border" role="status">
   <span class="visually-hidden">Loading...</span>
 </div>
+<div class="mb-3">
+  <input type="text" [(ngModel)]="filterText" class="form-control" id="filterText" placeholder="Search car">
+</div>
+<div *ngIf="filterText" class="alert alert-primary">
+  {{filterText}} is searched.
+</div>
 
 <div *ngIf="dataLoaded == true" class="row row-cols-1 row-cols-md-3 g-4">
-  <div *ngFor="let car of cars" class="col">
+  <div *ngFor="let car of cars | filterPipe:filterText" class="col">
     <div class="card h-100">
-      <a href="#" class="card-link">
-        <img src="..." class="card-img-top" alt="...">
-      </a>
       <div class="card-body">
-        <a href="#" class="card-link">
-          <h5 class="card-title">{{car.name}}</h5>
-        </a>
+        <img *ngIf="getCarImage(car.carId)" [src]="getCarImage(car.carId)" class="card-img-top">
+        <h5 class="card-title">{{car.carName}}</h5>
         <p class="card-text">{{ car.description }}</p>
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">Brand: {{ car.brandId }}</li>
-        <li class="list-group-item">Color: {{ car.colorId }}</li>
+        <li class="list-group-item">Brand: {{ car.brandName }}</li>
+        <li class="list-group-item">Color: {{ car.colorName }}</li>
         <li class="list-group-item">Model Year: {{ car.modelYear }}</li>
-        <li class="list-group-item">Daily Price: {{ car.dailyPrice }} TL</li>
+        <li class="list-group-item">Daily Price: {{ car.dailyPrice |currency }}</li>
+        <li class="list-group-item">Daily Price (VAT Included): {{ car.dailyPrice |vatAdded:10 |currency }}</li>
+        <li class="list-group-item">
+          <a (click)="addToCart(car)" href="#" class="btn btn-primary float-end w-100">Rent</a>
+        </li>
       </ul>
     </div>
   </div>

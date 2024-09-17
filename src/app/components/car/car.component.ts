@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Car } from '../../models/car';
 import { CarService } from '../../services/car.service';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { CarImageService } from '../../services/car-image.service';
+import { response } from 'express';
+import { CarImage } from '../../models/carImage';
 
 @Component({
   selector: 'app-car',
@@ -10,11 +14,14 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class CarComponent implements OnInit {
   cars: Car[];
+  images: CarImage[];
   dataLoaded = false;
-  apiUrl = 'https://localhost:44386/api/cars/getall';
+  filterText = "";
 
   constructor(private carService:CarService, 
-    private activatedRoute:ActivatedRoute) {}
+    private activatedRoute:ActivatedRoute,
+    private toastrService:ToastrService,
+    private carImageService:CarImageService) {}
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params=>{
@@ -22,6 +29,7 @@ export class CarComponent implements OnInit {
         this.getCarsByBrand(params["brandId"]);
       }else{
         this.getCars();
+        this.getCarsImagePath();
       }
     })
   }
@@ -38,5 +46,26 @@ export class CarComponent implements OnInit {
       this.cars = response.data;
       this.dataLoaded = true;
     });
+  }
+
+  getCarsImagePath(){
+    this.carImageService.getCarImagesByCarId().subscribe(response => {
+      this.images = response.data;
+      this.dataLoaded = true;
+    })
+  }
+
+  getCarImage(carId: number) {
+    if (!this.images || this.images.length === 0) {
+      // If this.images is undefined or empty, return null
+      return null;
+    }
+  
+    const image = this.images.find(im => im.carId === carId);
+    return image?.imageUrl ?? null;  // Return the image file name if found, otherwise return null
+  }
+
+  addToCart(car:Car){
+    this.toastrService.success("Added to cart", car.carName);
   }
 }
