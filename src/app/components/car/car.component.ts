@@ -25,11 +25,11 @@ export class CarComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params=>{
+      this.getCarsImagePath();
       if(params["brandId"]){
         this.getCarsByBrand(params["brandId"]);
       }else{
         this.getCars();
-        this.getCarsImagePath();
       }
     })
   }
