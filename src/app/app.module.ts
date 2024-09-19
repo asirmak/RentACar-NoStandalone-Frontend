@@ -14,6 +14,7 @@ import { FilterPipePipe } from './pipes/filter-pipe.pipe';
 
 import { ToastrModule } from 'ngx-toastr';
 import { FooterComponent } from './components/footer/footer.component';
+import { RentalComponent } from './components/rental/rental.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { FooterComponent } from './components/footer/footer.component';
     NaviComponent,
     VatAddedPipe,
     FilterPipePipe,
-    FooterComponent
+    FooterComponent,
+    RentalComponent
   ],
   imports: [
     BrowserModule,
