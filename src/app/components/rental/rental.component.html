@@ -16,18 +16,24 @@
           </ul>
       </div>
     </div>
-    <br>
-    <div class="col-md-6">
+    <form [formGroup]="carRentForm" class="col-md-6">
       <p>Welcome Back</p>
-      <label>Enter Rent Date</label>
-      <input class="form-control" type="text" placeholder="1990-10-21" aria-label="Rent-Date">
-      <br>
-      <label>Enter Return Date</label>
-      <input class="form-control" type="text" placeholder="1990-10-21" aria-label="Rent-Date">
-    </div>
+      <div class="mb-3">
+        <div class="form-group">
+          <label for="rentDate">Rent Date</label>
+          <input class="form-control" type="datetime-local" id="rentDate" formControlName="rentDate" aria-label="Rent-Date">
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="form-group">
+          <label for="returnDate">Return Date</label>
+          <input class="form-control" type="datetime-local" id="returnDate" formControlName="returnDate" aria-label="Return-Date">
+        </div>
+      </div>
+    </form>
     <div class="col-md-3">
       <p>Summary</p>
-      <button>Start Renting!</button>
+      <button class="btn btn-fill btn-primary" (click)="rentTheCar()">Start Renting!</button>
     </div>
   </div>
 </div>
