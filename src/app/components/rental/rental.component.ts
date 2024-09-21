@@ -13,6 +13,7 @@ import {
 import { RentalService } from '../../services/rental.service';
 import { ToastrService } from 'ngx-toastr';
 import { response } from 'express';
+import { isNull } from 'node:util';
 
 @Component({
   selector: 'app-rental',
@@ -66,12 +67,35 @@ export class RentalComponent {
               this.toastrService.error(responseError.error.Errors[index].ErrorMessage, "Validation Error");
             }
           }
+          else{
+            this.toastrService.error(responseError.error.message);
+          }
         }
       });
     } else {
       this.toastrService.error('Missing form');
     }
   }
+
+  getDayDifference(): number | null {
+
+    let rentDate = this.carRentForm.get('rentDate')?.value;
+    let returnDate = this.carRentForm.get('returnDate')?.value;
+
+    if (rentDate && returnDate){
+
+      const rentDateObj = new Date(rentDate);
+      const returnDateObj = new Date(returnDate);
+
+      const dayDifference = (returnDateObj.getTime() - rentDateObj.getTime()) / (1000 * 60 * 60 * 24);
+
+      return dayDifference;
+    }
+    return null;
+  }
+
+  
+
 
   getCarByCarId(carId: number) {
     this.carService.getCarByCarId(carId).subscribe((response) => {
