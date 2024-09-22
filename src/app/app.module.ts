@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-import { provideHttpClient, HttpClientModule, withFetch } from '@angular/common/http';
+import { provideHttpClient, HttpClientModule, withFetch, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -15,6 +15,8 @@ import { FilterPipePipe } from './pipes/filter-pipe.pipe';
 import { ToastrModule } from 'ngx-toastr';
 import { FooterComponent } from './components/footer/footer.component';
 import { RentalComponent } from './components/rental/rental.component';
+import { LoginComponent } from './components/login/login.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,7 @@ import { RentalComponent } from './components/rental/rental.component';
     FilterPipePipe,
     FooterComponent,
     RentalComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,9 +41,9 @@ import { RentalComponent } from './components/rental/rental.component';
     }),
     BrowserAnimationsModule
   ],
-  providers: [
-    provideClientHydration(),
-    provideHttpClient(withFetch())
+  providers: [provideClientHydration(),
+    provideHttpClient(withFetch()),
+    {provide:HTTP_INTERCEPTORS, useClass:AuthInterceptor, multi:true}
   ],
   bootstrap: [AppComponent]
 })
