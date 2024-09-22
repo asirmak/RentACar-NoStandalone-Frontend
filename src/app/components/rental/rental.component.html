@@ -20,14 +20,36 @@
       <p>Welcome Back</p>
       <div class="mb-3">
         <div class="form-group">
-          <label for="rentDate">Rent Date</label>
-          <input class="form-control" type="datetime-local" id="rentDate" formControlName="rentDate" aria-label="Rent-Date">
-        </div>
+          <div>
+            <label for="rentDate">Rent Date</label>
+          </div>
+          <div class="datepicker-container">
+            <input
+              matInput
+              [matDatepicker]="picker1"
+              formControlName="rentDate"
+              [matDatepickerFilter]="myFilter"
+              placeholder="Choose a rent date">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          </div>
+          <mat-datepicker #picker1></mat-datepicker>
+        </div>        
       </div>
       <div class="mb-3">
         <div class="form-group">
-          <label for="returnDate">Return Date</label>
-          <input class="form-control" type="datetime-local" id="returnDate" formControlName="returnDate" aria-label="Return-Date">
+          <div>
+            <label for="returnDate">Return Date</label>
+          </div>
+          <div class="datepicker-container">
+            <input
+              matInput
+              [matDatepicker]="picker2"
+              formControlName="returnDate"
+              [matDatepickerFilter]="myFilter"
+              placeholder="Choose a return date">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          </div>
+          <mat-datepicker #picker2></mat-datepicker>
         </div>
       </div>
     </form>
@@ -52,7 +74,7 @@
             </div>
           </div>
         </div>
-        <div class="mb-3">
+        <div>
           <div class="card-footer">
             <button class="btn btn-fill btn-primary" (click)="rentTheCar()" 
             >Start Renting!</button>

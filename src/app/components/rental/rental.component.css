@@ -1,0 +1,11 @@
+.datepicker-container {
+  position: relative;
+  display: inline-block;
+}
+
+.mat-datepicker-toggle {
+  position: absolute;
+  right: 0; /* Input'un sağ tarafına yerleştirmek için */
+  top: 55%;
+  transform: translateY(-55%); /* Yatay olarak ortalamak için */
+}

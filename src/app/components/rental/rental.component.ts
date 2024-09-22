@@ -13,6 +13,7 @@ import {
 } from '@angular/forms';
 import { RentalService } from '../../services/rental.service';
 import { ToastrService } from 'ngx-toastr';
+import { Rental } from '../../models/rental';
 
 @Component({
   selector: 'app-rental',
@@ -24,7 +25,7 @@ export class RentalComponent {
   imageUrl: string;
   car: Car | undefined;
   carRentForm: FormGroup;
-  router: Router;
+  rentals : Rental[];
 
   constructor(
     private carService: CarService,
@@ -32,13 +33,15 @@ export class RentalComponent {
     private carImageService: CarImageService,
     private formBuilder: FormBuilder,
     private rentalService: RentalService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
       this.getCarByCarId(params['carId']);
       this.getCarImageByCarId(params['carId']);
+      this.getRentalsByCarId(params['carId']);
       this.rentCarForm();
     });
   }
@@ -77,7 +80,32 @@ export class RentalComponent {
       this.toastrService.error('Missing form');
     }
   }
+  myFilter = (d: Date | null): boolean => {
+    const input = d || new Date();
+  
+    if (this.rentals){
 
+    
+      // Geçersiz tarih aralıkları (başlangıç ve bitiş tarihleri)
+      let invalidRanges = [];
+      
+      for (let rental of this.rentals){
+        invalidRanges.push({start: new Date(rental.rentDate), end: new Date(rental.returnDate)})
+      }
+
+
+      // Her bir aralığı kontrol et
+      for (let range of invalidRanges) {
+        if (input >= range.start && input <= range.end) {
+          return false; // Bu aralıktaysa tarih geçersizdir
+        }
+      }
+    }
+    // Diğer günler geçerli
+    return true;
+  };
+  
+  
   getDayDifference(): number | null {
 
     let rentDate = this.carRentForm.get('rentDate')?.value;
@@ -116,5 +144,11 @@ export class RentalComponent {
         console.error('image not found');
       }
     });
+  }
+
+  getRentalsByCarId(carId: number){
+    this.rentalService.getRentalsByCarId(carId).subscribe(response =>{
+      this.rentals = response.data;
+    })
   }
 }
