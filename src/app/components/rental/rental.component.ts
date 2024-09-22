@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CarService } from '../../services/car.service';
 import { CarImage } from '../../models/carImage';
 import { Car } from '../../models/car';
+import { Router } from '@angular/router';
 import {
   FormGroup,
   FormBuilder,
@@ -12,8 +13,6 @@ import {
 } from '@angular/forms';
 import { RentalService } from '../../services/rental.service';
 import { ToastrService } from 'ngx-toastr';
-import { response } from 'express';
-import { isNull } from 'node:util';
 
 @Component({
   selector: 'app-rental',
@@ -25,6 +24,7 @@ export class RentalComponent {
   imageUrl: string;
   car: Car | undefined;
   carRentForm: FormGroup;
+  router: Router;
 
   constructor(
     private carService: CarService,
@@ -60,6 +60,7 @@ export class RentalComponent {
       this.rentalService.addRental(rental).subscribe({  
         next: (response) => {
           this.toastrService.success(response.message);
+          this.router.navigate(["cars"]);
         },
         error: (responseError) =>{
           if(responseError.error.StatusCode == 400 && responseError.error.Errors.length>0){
@@ -89,13 +90,10 @@ export class RentalComponent {
 
       const dayDifference = (returnDateObj.getTime() - rentDateObj.getTime()) / (1000 * 60 * 60 * 24);
 
-      return dayDifference;
+      return Math.floor(dayDifference);
     }
     return null;
   }
-
-  
-
 
   getCarByCarId(carId: number) {
     this.carService.getCarByCarId(carId).subscribe((response) => {

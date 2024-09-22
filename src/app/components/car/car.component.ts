@@ -64,8 +64,4 @@ export class CarComponent implements OnInit {
     const image = this.images.find(im => im.carId === carId);
     return image?.imageUrl ?? null;  // Return the image file name if found, otherwise return null
   }
-
-  addToCart(car:Car){
-    this.toastrService.success("Added to cart", car.carName);
-  }
 }

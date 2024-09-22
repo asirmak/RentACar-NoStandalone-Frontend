@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LoginModel } from '../models/loginModel';
 import { HttpClient } from '@angular/common/http';
-import { ResponseModel } from '../models/responseModel';
 import { TokenModel } from '../models/tokenModel';
 import { SingleResponseModel } from '../models/singleResponseModel';
 
@@ -19,11 +18,15 @@ export class AuthService {
   }
 
   isAuthenticated(){
-    if(localStorage.getItem("token")){
-      return true;
+    if (typeof localStorage !== 'undefined'){
+
+      if(localStorage.getItem("token")){
+        return true;
+      }
+      else{
+        return false;
+      }
     }
-    else{
-      return false;
-    }
+    return false;
   }
 }
