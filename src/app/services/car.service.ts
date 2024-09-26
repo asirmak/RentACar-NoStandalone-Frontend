@@ -26,4 +26,9 @@ export class CarService {
     let newPath = this.apiUrl + "cars/getalldetailsbybrandid?id="+brandId;
     return this.httpClient.get<ListResponseModel<Car>>(newPath);
   }
+
+  getCarsBetweenDates(rentDate:string, returnDate:string): Observable<ListResponseModel<Car>>{
+    let newPath = this.apiUrl + "cars/getallcarsdetailsbyrentaldate?rentDate="+rentDate+"&returnDate="+returnDate;
+    return this.httpClient.get<ListResponseModel<Car>>(newPath);
+  }
 }

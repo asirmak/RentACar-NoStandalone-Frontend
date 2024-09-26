@@ -18,38 +18,36 @@
     </div>
     <form [formGroup]="carRentForm" class="col-md-6">
       <p>Welcome Back</p>
-      <div class="mb-3">
-        <div class="form-group">
-          <div>
-            <label for="rentDate">Rent Date</label>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="datepicker-container">
+              <input
+                class="form-control"
+                matInput
+                [matDatepicker]="picker1"
+                formControlName="rentDate"
+                [matDatepickerFilter]="myFilter"
+                placeholder="Choose a rent date">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            </div>
+            <mat-datepicker #picker1></mat-datepicker>
+          </div>        
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="datepicker-container">
+              <input
+                class="form-control"
+                matInput
+                [matDatepicker]="picker2"
+                formControlName="returnDate"
+                [matDatepickerFilter]="myFilter"
+                placeholder="Choose a return date">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            </div>
+            <mat-datepicker #picker2></mat-datepicker>
           </div>
-          <div class="datepicker-container">
-            <input
-              matInput
-              [matDatepicker]="picker1"
-              formControlName="rentDate"
-              [matDatepickerFilter]="myFilter"
-              placeholder="Choose a rent date">
-            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-          </div>
-          <mat-datepicker #picker1></mat-datepicker>
-        </div>        
-      </div>
-      <div class="mb-3">
-        <div class="form-group">
-          <div>
-            <label for="returnDate">Return Date</label>
-          </div>
-          <div class="datepicker-container">
-            <input
-              matInput
-              [matDatepicker]="picker2"
-              formControlName="returnDate"
-              [matDatepickerFilter]="myFilter"
-              placeholder="Choose a return date">
-            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-          </div>
-          <mat-datepicker #picker2></mat-datepicker>
         </div>
       </div>
     </form>

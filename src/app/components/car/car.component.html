@@ -8,6 +8,47 @@
   {{filterText}} is searched.
 </div>
 
+<div class="mb-3">
+  <form [formGroup]="dateFilterCarForm" class="row g-3 mb-3">
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="datepicker-container">
+          <input
+            class="form-control"
+            matInput
+            [matDatepicker]="picker1"
+            formControlName="rentDate"
+            [matDatepickerFilter]="myFilter"
+            placeholder="Choose a rent date">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </div>
+      </div>        
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="datepicker-container">
+          <input
+            class="form-control"
+            matInput
+            [matDatepicker]="picker2"
+            formControlName="returnDate"
+            [matDatepickerFilter]="myFilter"
+            placeholder="Choose a return date">
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </div>
+      </div>
+    </div>
+  </form>
+  <button class="btn btn-fill btn-primary mb-3" (click)="searchCarsBetweenDates()">Search Between Dates!</button>
+  <div *ngIf="dateSearchButtonClicked" class="alert alert-primary">
+    Available cars
+    between {{ (dateFilterCarForm.get('rentDate')?.value | date: 'fullDate')}}
+    and {{ (dateFilterCarForm.get('returnDate')?.value | date: 'fullDate')}}
+  </div>
+</div>
+
 <div *ngIf="dataLoaded == true" class="row row-cols-1 row-cols-md-3 g-4">
   <div *ngFor="let car of cars | filterPipe:filterText" class="col">
     <div class="card h-100">
